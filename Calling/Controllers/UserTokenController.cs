@@ -18,7 +18,11 @@ namespace Calling
 
         public UserTokenController(IConfiguration configuration)
         {
-            _client = new CommunicationIdentityClient(configuration["ResourceConnectionString"]);
+            var config = new ConfigurationBuilder().AddEnvironmentVariables()
+                        .AddJsonFile("local.settings.json", true)
+                        .Build();
+            var connectionString = config.GetConnectionString("ACSConnectionString");
+            _client = new CommunicationIdentityClient(connectionString);
         }
 
         /// <summary>
